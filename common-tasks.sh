@@ -16,10 +16,10 @@ PS4='+$(date +"%T.%3N"): '
 #gio set /home/student/Desktop/Lab_Guide.desktop metadata::trusted true
 #chmod +x /home/student/Desktop/Lab_Guide.desktop
 
-# common files for all labs
-mkdir Desktop/Lab_Files
-sudo rm Downloads/*.crt
-
 # run this lab's specific tasks saved on GitHub
 curl --silent --output /tmp/$LAB_ID.sh https://raw.githubusercontent.com/learnf5/$COURSE_ID/main/$LAB_ID.sh
 bash -x /tmp/$LAB_ID.sh
+
+# common files for all labs
+sudo rm Desktop/Lab_Files/*.*
+sudo rm Downloads/*.crt
