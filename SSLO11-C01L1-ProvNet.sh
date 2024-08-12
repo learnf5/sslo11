@@ -12,14 +12,14 @@ curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/bigip.licens
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/bigip.license.sslo2     --output /tmp/bigip.license.sslo2
 
 # confirm sslo1 is active
-for i in {1..30}; do [ "$(sudo ssh root@192.168.1.31 cat /var/prompt/ps1)" = "LICENSE" ] && break; sleep 5; done
+for i in {1..30}; do [ "$(sudo ssh root@192.168.1.31 cat /var/prompt/ps1)" = "NO LICENSE" ] && break; sleep 5; done
 
 # install license on sslo1
 sudo scp /tmp/bigip.license.sslo1 192.168.1.31:/config/bigip.license
 sudo ssh 192.168.1.31 reloadlic
 
 # confirm sslo2 is active
-for i in {1..30}; do [ "$(sudo ssh root@192.168.2.31 cat /var/prompt/ps1)" = "LICENSE" ] && break; sleep 5; done
+for i in {1..30}; do [ "$(sudo ssh root@192.168.2.31 cat /var/prompt/ps1)" = "NO LICENSE" ] && break; sleep 5; done
 
 # install license on sslo2
 sudo scp /tmp/bigip.license.sslo2 192.168.2.31:/config/bigip.license
