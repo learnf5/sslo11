@@ -3,6 +3,7 @@ set -x
 PS4='+$(date +"%T.%3N"): '
 
 #Download needed files
+mkdir /home/student/Desktop/Lab_Files
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/certs/RootCertAndKey.pfx --output /home/student/Desktop/Lab_Files/RootCertAndKey.pfx
 
 # update Student Workstation
