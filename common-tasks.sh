@@ -21,5 +21,4 @@ curl --silent --output /tmp/$LAB_ID.sh https://raw.githubusercontent.com/learnf5
 bash -x /tmp/$LAB_ID.sh
 
 # common files for all labs
-#rm Desktop/Lab_Files/*.*
-sudo rm Downloads/*.crt
+
