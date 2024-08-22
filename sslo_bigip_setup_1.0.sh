@@ -103,7 +103,7 @@ f5trn0${station}
 EOD
 #option to create instructor admin role
 #tmsh create auth user Instructor password f5trnins partition-access add {all-partitions { role admin } } shell bash
-tmsh create net route external_default_gateway network default gw 10.10.17.33
+# [not correct] tmsh create net route external_default_gateway network default gw 10.10.17.33
 tmsh create net vlan internal interfaces add { 1.2 { untagged } }
 tmsh create net vlan external interfaces add { 1.1 { untagged } }
 tmsh create net vlan icap_VLAN interfaces add { 1.3 { untagged } }
