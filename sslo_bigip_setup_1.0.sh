@@ -106,13 +106,13 @@ EOD
 tmsh create net route external_default_gateway network default gw 10.10.17.33
 tmsh create net vlan internal interfaces add { 1.2 { untagged } }
 tmsh create net vlan external interfaces add { 1.1 { untagged } }
-tmsh create net vlan icap_vlan interfaces add { 1.3 { untagged } }
+tmsh create net vlan icap_VLAN interfaces add { 1.3 { untagged } }
 tmsh create net self "172.16.${n}.31" address "172.16.${n}.31/16" traffic-group traffic-group-local-only vlan internal allow-service default
 tmsh create net self "172.16.${n}.33" address "172.16.${n}.33/16" traffic-group traffic-group-1 vlan internal allow-service default
-tmsh create net self "10.10.${n}.31" address "10.10.${n}.31/16" traffic-group traffic-group-local-only vlan external allow-service add { tcp:22 tcp:443 }
-tmsh create net self "10.10.${n}.33" address "10.10.${n}.33/16" traffic-group traffic-group-1 vlan external allow-service add { tcp:22 tcp:443 }
-tmsh create net self "10.1.30.3${n}" address "10.1.30.3${n}/24" traffic-group traffic-group-local-only vlan icap_VLAN allow-service default
-tmsh create net self "10.1.30.33" address "10.1.30.33/24" traffic-group traffic-group-1 vlan icap_VLAN allow-service default
+tmsh create net self "10.10.${n}.31" address "10.10.${n}.31/16" traffic-group traffic-group-local-only vlan external
+tmsh create net self "10.10.${n}.33" address "10.10.${n}.33/16" traffic-group traffic-group-1 vlan external
+tmsh create net self "10.1.30.3${n}" address "10.1.30.3${n}/24" traffic-group traffic-group-local-only vlan icap_VLAN
+tmsh create net self "10.1.30.33" address "10.1.30.33/24" traffic-group traffic-group-1 vlan icap_VLAN
 tmsh modify cm device "bigip${n}.f5trn.com" configsync-ip "172.16.${n}.31" unicast-address {{ effective-ip "192.168.${n}.31" ip "192.168.${n}.31" } { effective-ip "172.16.${n}.31" ip "172.16.${n}.31" }} mirror-ip "172.16.${n}.31"
 tmsh create /ltm pool existing_app_pool load-balancing-mode round-robin members add { 172.16.20.1:443 172.16.20.2:443 172.16.20.3:443 } monitor gateway_icmp
 tmsh create /ltm virtual existing_app_pool destination 10.10.1.100:443 pool existing_app_pool profiles add { tcp } source-address-translation { type automap } translate-address enabled translate-port enabled
