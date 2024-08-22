@@ -22,15 +22,15 @@
 # TO RUN THIS SCRIPT:
 # 1. Upload the script to the student's BIG-IP system and place in /shared/tmp/
 # 2. Check the script for errant line feed characters by running the following command:
-#       cat sslo_setup_1.0.txt | od -c
+#       cat sslo_bigip_setup_1.0.sh | od -c
 #
 # 3. If you see " \ r \ n " characters in the output, run these commands to remove them:
-#       tr -d "\r" < sslo_setup_1.0.txt > sslo_setup_1.0a.txt
-#       mv sslo_setup_1.0a.txt sslo_setup_1.0.txt   (reply "yes" when prompted)
+#       tr -d "\r" < sslo_bigip_setup_1.0.sh > sslo_bigip_setup_1.0a.sh
+#       mv sslo_bigip_setup_1.0a.sh sslo_bigip_setup_1.0.sh   (reply "yes" when prompted)
 
-# 4. Make script executable: chmod 755 /shared/tmp/sslo_setup_1.0.txt
+# 4. Make script executable: chmod 755 /shared/tmp/sslo_bigip_setup_1.0.sh
 # 5. From the /shared/tmp/ directory, execute the script:
-#       ./sslo_setup_4.0.txt
+#       ./sslo_bigip_setup_1.0.sh
 #    
 #
 # Is this a BIG-IP system?
@@ -103,6 +103,7 @@ f5trn0${station}
 EOD
 #option to create instructor admin role
 #tmsh create auth user Instructor password f5trnins partition-access add {all-partitions { role admin } } shell bash
+tmsh create net route default gw 10.10.17.33
 tmsh create net vlan internal interfaces add { 1.2 { untagged } }
 tmsh create net vlan external interfaces add { 1.1 { untagged } }
 tmsh create net vlan icap_vlan interfaces add { 1.3 { untagged } }
