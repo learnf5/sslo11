@@ -116,7 +116,8 @@ tmsh create net self "10.1.30.33" address "10.1.30.33/24" traffic-group traffic-
 tmsh modify cm device "bigip${n}.f5trn.com" configsync-ip "172.16.${n}.31" unicast-address {{ effective-ip "192.168.${n}.31" ip "192.168.${n}.31" } { effective-ip "172.16.${n}.31" ip "172.16.${n}.31" }} mirror-ip "172.16.${n}.31"
 tmsh create /ltm pool existing_app_pool load-balancing-mode round-robin members add { 172.16.20.1:443 172.16.20.2:443 172.16.20.3:443 } monitor gateway_icmp
 tmsh create /ltm virtual existing_app_pool destination 10.10.1.100:443 pool existing_app_pool profiles add { tcp } source-address-translation { type automap } translate-address enabled translate-port enabled
-tmsh modify /sys provision avr sslo urldb level minimum
+tmsh modify /sys provision sslo urldb level minimum
+tmsh modify /sys provision ltm level none
 tmsh save sys config
 { set +x; } 2>/dev/null
 echo This bigip is configured with the Setup Utility complete.
