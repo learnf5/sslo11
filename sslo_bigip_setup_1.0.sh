@@ -117,10 +117,14 @@ tmsh modify cm device "bigip${n}.f5trn.com" configsync-ip "172.16.${n}.31" unica
 tmsh create /ltm pool existing_app_pool load-balancing-mode round-robin members add { 172.16.20.1:443 172.16.20.2:443 172.16.20.3:443 } monitor gateway_icmp
 tmsh create /ltm virtual existing_app_pool destination 10.10.1.100:443 pool existing_app_pool profiles add { tcp } source-address-translation { type automap } translate-address enabled translate-port enabled
 tmsh modify /sys provision sslo urldb level minimum
+sleep 20
+for i in {1..30}; do [ "$(cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
 tmsh modify /sys provision ltm level none
+sleep 20
+for i in {1..30}; do [ "$(cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
 tmsh save sys config
 { set +x; } 2>/dev/null
-echo This bigip is configured with the Setup Utility complete.
+echo This bigip configuration is complete.
 echo Creating backup
 { set -x; } 2>/dev/null
 tmsh save sys ucs "sslo${n}_prepared.ucs"
