@@ -1,0 +1,177 @@
+apm aaa localdb /Common/my_local_db { }
+
+apm policy access-policy /Common/SWG_Profile {
+    default-ending /Common/SWG_Profile_end_deny
+    items {
+        /Common/SWG_Profile_act_http_407_response { }
+        /Common/SWG_Profile_act_localdb_auth { }
+        /Common/SWG_Profile_end_allow { }
+        /Common/SWG_Profile_end_deny { }
+        /Common/SWG_Profile_ent { }
+    }
+    start-item /Common/SWG_Profile_ent
+}
+
+apm policy customization-group /Common/SWG_Profile_act_http_407_response_ag {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_act_http_407_response_ag_137456_2
+    revision 2
+    source /Common/modern
+}
+apm policy customization-group /Common/SWG_Profile_end_deny_ag {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_end_deny_ag_137407_1
+    revision 1
+    source /Common/modern
+    type logout
+}
+apm policy customization-group /Common/SWG_Profile_eps {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_eps_137443_1
+    revision 1
+    source /Common/modern
+    type eps
+}
+apm policy customization-group /Common/SWG_Profile_errormap {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_errormap_137440_1
+    revision 1
+    source /Common/modern
+    type errormap
+}
+apm policy customization-group /Common/SWG_Profile_framework_installation {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_framework_installation_137446_1
+    revision 1
+    source /Common/modern
+    type framework-installation
+}
+apm policy customization-group /Common/SWG_Profile_general_ui {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_general_ui_137397_1
+    revision 1
+    source /Common/modern
+    type general-ui
+}
+apm policy customization-group /Common/SWG_Profile_logout {
+    cache-path /config/filestore/files_d/Common_d/customization_group_d/:Common:SWG_Profile_logout_137437_1
+    revision 1
+    source /Common/modern
+    type logout
+}
+
+apm policy policy-item /Common/SWG_Profile_act_http_407_response {
+    agents {
+        /Common/SWG_Profile_act_http_407_response_ag {
+            type logon-page
+        }
+    }
+    caption "HTTP 407 Response"
+    color 1
+    item-type action
+    rules {
+        {
+            caption Basic
+            expression "expr {[string tolower [mcget {session.logon.last.authtype}]] == \"basic\"}"
+            next-item /Common/SWG_Profile_act_localdb_auth
+        }
+        {
+            caption fallback
+            next-item /Common/SWG_Profile_end_deny
+        }
+    }
+}
+apm policy policy-item /Common/SWG_Profile_act_localdb_auth {
+    agents {
+        /Common/SWG_Profile_act_localdb_auth_ag {
+            type aaa-localdb
+        }
+    }
+    caption "LocalDB Auth"
+    color 1
+    item-type action
+    rules {
+        {
+            caption Successful
+            expression "expr {[mcget {session.localdb.last.result}] == 1}"
+            next-item /Common/SWG_Profile_end_allow
+        }
+        {
+            caption "Locked User Out"
+            expression "expr {[mcget {session.localdb.last.result}] == 2}"
+            next-item /Common/SWG_Profile_end_deny
+        }
+        {
+            caption fallback
+            next-item /Common/SWG_Profile_end_deny
+        }
+    }
+}
+apm policy policy-item /Common/SWG_Profile_end_allow {
+    agents {
+        /Common/SWG_Profile_end_allow_ag {
+            type ending-allow
+        }
+    }
+    caption Allow
+    color 1
+    item-type ending
+}
+
+apm policy policy-item /Common/SWG_Profile_end_deny {
+    agents {
+        /Common/SWG_Profile_end_deny_ag {
+            type ending-deny
+        }
+    }
+    caption Deny
+    color 2
+    item-type ending
+}
+apm policy policy-item /Common/SWG_Profile_ent {
+    caption Start
+    color 1
+    rules {
+        {
+            caption fallback
+            next-item /Common/SWG_Profile_act_http_407_response
+        }
+    }
+}
+
+apm policy agent aaa-localdb /Common/SWG_Profile_act_localdb_auth_ag {
+    localdb-instance /Common/my_local_db
+}
+
+apm policy agent ending-allow /Common/SWG_Profile_end_allow_ag { }
+
+apm policy agent ending-deny /Common/SWG_Profile_end_deny_ag {
+    customization-group /Common/SWG_Profile_end_deny_ag
+}
+
+apm policy agent logon-page /Common/SWG_Profile_act_http_407_response_ag {
+    basic-auth-realm test
+    customization-group /Common/SWG_Profile_act_http_407_response_ag
+    http-401-auth-level basic
+    type 407
+}
+
+apm profile access /Common/SWG_Profile {
+    accept-languages { en }
+    access-policy /Common/SWG_Profile
+    app-service none
+    customization-group /Common/SWG_Profile_logout
+    customization-key none
+    default-language en
+    eps-group /Common/SWG_Profile_eps
+    errormap-group /Common/SWG_Profile_errormap
+    framework-installation-group /Common/SWG_Profile_framework_installation
+    general-ui-group /Common/SWG_Profile_general_ui
+    generation 2
+    generation-action noop
+    log-settings {
+        /Common/default-log-setting
+    }
+    logout-uri-include none
+    modified-since-last-policy-sync true
+    named-scope none
+    ntlm-auth-name none
+    scope profile
+    type swg-explicit
+    user-identity-method ip-address
+}
+
