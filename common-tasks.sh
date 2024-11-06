@@ -22,3 +22,5 @@ bash -x /tmp/$LAB_ID.sh
 
 # common files for all labs
 
+# disable debugging
+set +x
