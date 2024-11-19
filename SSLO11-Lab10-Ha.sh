@@ -22,9 +22,10 @@ sudo scp /tmp/$ucs2 192.168.2.31:/var/local/ucs
 sudo ssh 192.168.2.31 tmsh load sys ucs $ucs2 no-license
 
 # update Student Workstation
-touch /tmp/lab10.1
-sudo ip route change default via 172.16.1.33
+touch /tmp/lab10
 
 # confirm bigip1 is active
 for i in {1..30}; do [ "$(sudo ssh root@192.168.1.31 cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
 for i in {1..30}; do [ "$(sudo ssh root@192.168.2.31 cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
+
+set +x
