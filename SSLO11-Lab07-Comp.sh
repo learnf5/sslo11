@@ -3,16 +3,19 @@ set -x
 PS4='+$(date +"%T.%3N"): '
 
 #Download needed files
-ucs=sslo1_ex_app.ucs
+ucs1=sslo1_ex_app.ucs
+ucs2=sslo1_id_comp.ucs
 #curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/certs/RootCertAndKey.pfx --output /home/student/Desktop/Lab_Files/RootCertAndKey.pfx
-curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs     --output /tmp/$ucs
+curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs1     --output /tmp/$ucs1
+curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs2     --output /tmp/$ucs2
 
 # confirm sslo1 is active
 for i in {1..30}; do [ "$(sudo ssh root@192.168.1.31 cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
 
 #prepare sslo1
-sudo scp /tmp/$ucs 192.168.1.31:/var/local/ucs
-sudo ssh 192.168.1.31 tmsh load sys ucs $ucs no-license
+sudo scp /tmp/$ucs1 192.168.1.31:/var/local/ucs
+sudo scp /tmp/$ucs2 192.168.1.31:/var/local/ucs
+sudo ssh 192.168.1.31 tmsh load sys ucs $ucs1 no-license
 
 # update Student Workstation
 touch /tmp/lab7
