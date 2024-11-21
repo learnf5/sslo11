@@ -9,7 +9,7 @@ ucs=sslo1_tf_proxy.ucs
 mkdir --parents /home/student/Desktop/Lab_Files
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/$rpm --output /home/student/Desktop/Lab_Files/$rpm
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/$md5 --output /home/student/Desktop/Lab_Files/$md5
-curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/$md5 --output /tmp/$ucs
+curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs --output /tmp/$ucs
 
 # confirm sslo1 is active
 for i in {1..30}; do [ "$(sudo ssh root@192.168.1.31 cat /var/prompt/ps1)" = "Active" ] && break; sleep 5; done
