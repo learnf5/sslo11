@@ -23,7 +23,7 @@ sudo ssh 192.168.1.31 tmsh load sys ucs sslo1_prep_ha.ucs no-license
 
 #prepare sslo2
 sudo scp /tmp/sslo2_*.ucs 192.168.2.31:/var/local/ucs
-sudo ssh 192.168.2.31 tmsh load sys ucs sslo1_prep_ha.ucs no-license
+sudo ssh 192.168.2.31 tmsh load sys ucs sslo2_prep_ha.ucs no-license
 
 # update Student Workstation
 touch /tmp/lab10
