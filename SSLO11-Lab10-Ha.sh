@@ -3,8 +3,8 @@ set -x
 PS4='+$(date +"%T.%3N"): '
 
 #Download needed files
-ucs1=sslo1_cert.ucs
-ucs2=sslo2_cert.ucs
+ucs1=sslo1_ha.ucs
+ucs2=sslo2_ha.ucs
 #curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/certs/RootCertAndKey.pfx --output /home/student/Desktop/Lab_Files/RootCertAndKey.pfx
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs1     --output /tmp/$ucs1
 curl --silent https://raw.githubusercontent.com/learnf5/sslo11/main/ucs/$ucs2     --output /tmp/$ucs2
