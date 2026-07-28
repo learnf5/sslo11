@@ -15,7 +15,7 @@ im-config -n xim
 ip route show
 sudo sed --in-place 's/172.16.17.33/172.16.1.33/' /etc/netplan/01-config.yaml
 sudo chmod 600 /etc/netplan/01-config.yaml
-sudo netplan apply
+###sudo netplan apply
 
 # disable debugging
 set +x
